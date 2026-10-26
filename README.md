@@ -160,30 +160,6 @@ Only these routes exist. There is no pass-through to the antenna. Every body is 
 
 `<id>` is the beltpack's internal id from `/rest/bp`, usually its number minus one. The page handles this. Which antenna a pack is on comes from `/rest/audioPorts`; `nodeStatus` alone only says which antenna reports it (the DECT master lists everyone).
 
-## Not confirmed on a live system yet
-
-Already used on a real system: applying keys, the Controls tab and menu lock, deleting a partyline and Show on Reply, Identify, and Unlatch all with keys not to unlatch.
-
-Not yet:
-- Audio writes and the duplicate wizard through the dashboard (the same writes work when made from the antenna's own page), and undo.
-- Setup restore. The plan is tested, the real run is not.
-- Partyline create, rename and disable against the real system.
-- Audio channel gain and mute (Tools > Audio channels): the request is the one the Riedel page sends and was checked against a stand-in antenna, not a real one.
-- Profiles: editing a profile's keys, renaming or copying one, and moving a pack to another profile (the formats are the ones the Riedel page and the snapshot restore use, but not confirmed against the real system, and whether packs follow a profile edit is not known).
-- Renaming a pack from its window (it sends `bpName` the way the Riedel page does, but the result has not been read back on a real pack).
-- Listening: the audio reaches the page and was checked with a test tone, but not by ear on a real NSA stream.
-- The installers on real computers (they build in CI; the Mac app's server program was run here). Nothing added since v0.1.0 has been through CI: the splash screen, keychain storage, headsets and the user-folder paths.
-- Battery run-time estimates from measured drain (the typical-use figure is checked against real packs' own readings).
-- Telegram and webhook delivery, and the Telegram status replies and the `unlatch` command.
-- Rotary changes, the quick menu builder, and the audio enhancement filters and filter editor (the writes match what the Riedel page sends, checked against a stand-in antenna only).
-- Quick assign (T in the pack window, A in Partylines, M for My pack): the writes are the same key writes used elsewhere, but the keyboard flows have not been used on a real system.
-- The antenna grace period (a short gap is not an outage): checked with a fake clock, not yet watched on a flaky real antenna.
-- A rename queued for an offline pack, sent when the pack is next on air.
-- Flashing a pack when an alert fires (the Identify flash itself is proven), and flashing an antenna from the map.
-- Everything tried only against a simulator: headset check in/out, the flapping, balance and firmware checks, the Trends tab, registration shown on the antennas, antennas joining or going quiet while the map is in fit mode, the keychain save of the admin password, the dock bounce and the splash screen. The simulator invents some behaviour (the signal scale, where firmware is reported, which registration fields exist, whether each antenna lists the whole system, the pack limit per antenna), so those need checking on the real thing.
-
-[docs/live-check.md](docs/live-check.md) is the plan for a hardware session that works through this list, read-only first.
-
 ## Legal
 
 Comms Check is an independent project with no connection to Riedel Communications GmbH & Co. KG. "Riedel" and "Bolero" are trademarks of that company and are used only to say which equipment this works with. It uses an interface Riedel does not document or support, can change the settings of a live system, and comes with no warranty. Read [NOTICE.md](NOTICE.md) before using it at an event.

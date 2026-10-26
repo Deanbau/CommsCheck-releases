@@ -137,5 +137,4 @@ Do not start until Phase 1 is done and nothing odd came up.
 ## What to do with the results
 
 - Anything marked Not OK becomes a fix. Send the row, the time and a screenshot.
-- Once Phase 2 passes, take those items off the "Not confirmed on a live system yet" list in the [README](../README.md), and tag the next version.
 - The things most likely to need a change are the signal scale (#3), where firmware is reported (#5), the registration fields (#6), the antenna list (#7), the pack limit (#2) and the polling load (#8), because those are where the simulator guessed.

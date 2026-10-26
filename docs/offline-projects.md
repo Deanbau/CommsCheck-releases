@@ -85,7 +85,7 @@ Phases 1 and 2 are useful on their own: a show can be prepared and printed befor
 - It is blocked in show mode, and refuses if an antenna is down or the antenna count changed since the plan was made.
 - Every real apply is preceded by a saved snapshot and ends with a read-back.
 - Matching is by number only. A pack that isn't matched is never written to.
-- Writes that are still guesses (see the README's "Not confirmed on a live system yet") are marked in the review step until they have passed on the real system.
+- Writes that are still guesses are marked in the review step until they have passed on the real system.
 
 ## Testing
 
