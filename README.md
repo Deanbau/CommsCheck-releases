@@ -1,5 +1,7 @@
 # Comms Check
 
+**Free to use. If you found it useful, [donations are welcome](https://www.paypal.com/donate/?business=865HZJWESSNFL&no_recurring=0&currency_code=AUD).**
+
 A dashboard for watching and running a Riedel Bolero standalone intercom during a show: a live map of antennas and beltpacks, an event log with alerts, a pack configurer with drag-and-drop keys and audio settings, and a set of show-day tools. It runs as a desktop app, or as a small server you open in a browser.
 
 > **Unofficial.** Comms Check is not made, endorsed or supported by Riedel Communications and is not connected to them. Riedel and Bolero are trademarks of their owner. See [NOTICE.md](NOTICE.md).
