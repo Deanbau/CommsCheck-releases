@@ -6,12 +6,32 @@ A dashboard for watching and running a Riedel Bolero standalone intercom during 
 
 Tested against Bolero firmware 3.5.1-14 in standalone (AES67) mode. It talks to the same undocumented interface the Bolero's own web page uses, so a firmware update could break it, and it can change the settings of a live system. Read [NOTICE.md](NOTICE.md) before using it at an event.
 
+## Screenshots
+
+Taken from the simulator, with generic names. The meters read made-up NSA streams: PGM In from the desk and Talk To Stage going out.
+
+| | |
+|---|---|
+| ![Map](docs/screenshots/map.png) **Map** | ![Grid](docs/screenshots/grid.png) **Grid** |
+| ![Audio meters for NSA streams](docs/screenshots/audio-meters.png) **Audio meters for NSA streams** | ![Silent audio on an NSA stream](docs/screenshots/audio-meters-silent.png) **Silent audio on an NSA stream** |
+| ![Silent audio alert](docs/screenshots/silent-audio-alert.png) **Silent audio alert** | ![Audio channels](docs/screenshots/audio-channels.png) **Audio channels** |
+| ![Pack keys and rotaries](docs/screenshots/pack-keys.png) **Pack keys and rotaries** | ![Pack audio](docs/screenshots/pack-audio.png) **Pack audio** |
+| ![Pack controls](docs/screenshots/pack-controls.png) **Pack controls** | ![Pack quick menu](docs/screenshots/pack-quick-menu.png) **Pack quick menu** |
+| ![Battery and signal trends](docs/screenshots/pack-trends.png) **Battery and signal trends** | ![Undo and roll back](docs/screenshots/pack-restore.png) **Undo and roll back** |
+| ![Comms matrix](docs/screenshots/comms-matrix.png) **Comms matrix** | ![Partylines](docs/screenshots/partylines.png) **Partylines** |
+| ![Profiles](docs/screenshots/profiles.png) **Profiles** | ![Pre-show check](docs/screenshots/pre-show-check.png) **Pre-show check** |
+| ![Coverage and battery report](docs/screenshots/coverage-report.png) **Coverage and battery report** | ![Setup snapshots](docs/screenshots/setup-snapshots.png) **Setup snapshots** |
+
+## Support
+
+Comms Check is free and MIT licensed. If you found it useful, [donations are welcome](https://www.paypal.com/donate/?business=865HZJWESSNFL&no_recurring=0&currency_code=AUD).
+
 ## Install
 
 Download the latest build from the [Releases page](https://github.com/Deanbau/CommsCheck-releases/releases/latest):
 
-- **Desktop app**: `.dmg` for Apple silicon Macs, `.exe` installer or `.zip` for Windows. It carries its own server, so nothing else is needed.
-- **Plain server program**: `CommsCheck-server-windows.zip`, for a show computer with no desktop window. Unzip it, run `CommsCheck`, and open http://127.0.0.1:8080.
+- **Desktop app**: `.dmg` for Apple silicon Macs, `.exe` installer or `.zip` for Windows, `.AppImage` or `.deb` for Linux. It carries its own server, so nothing else is needed.
+- **Plain server program**: `CommsCheck-server-<system>.zip` (mac, windows or linux), for a show computer with no desktop window. Unzip it, run `CommsCheck`, and open http://127.0.0.1:8080.
 - `SHA256SUMS.txt` to check a download.
 
 The apps are not code-signed, so the first launch needs one extra click (right-click > Open on a Mac, "More info" > "Run anyway" on Windows). If macOS says the app is damaged, run `xattr -dr com.apple.quarantine "/Applications/Comms Check.app"`. Intel Macs are not covered. This repo only holds downloads and documentation; the source is private.
@@ -52,6 +72,8 @@ When it opens view-only, it asks once for the admin password. Tick "Remember it 
 - **Identify** flashes a pack and turns itself off after a set time (default 10 s).
 
 **Help**: the Help button in the toolbar (or the `?` key, or Help > Comms Check help in the desktop app) opens a searchable guide inside the app, written for the people running the show. It is the short version of [docs/using-the-dashboard.md](docs/using-the-dashboard.md) and lives in `web/src/help.ts`.
+
+**AI assistant (MCP)**: Settings has a section that makes a write token and the `claude mcp add` command for the MCP server, which is built into the program (`CommsCheck --mcp`, no Python needed). An assistant can read the system by default, and can only make changes once you give it the token.
 
 **Tools menu**
 - **Pre-show check**: one list of what is wrong (offline packs, low batteries, weak coverage, offline antennas, hot or worn batteries, firmware (naming the odd packs and antennas), lopsided antennas, pack names too long for the pack screen, setup drift, registration left open).
@@ -94,14 +116,14 @@ Open http://127.0.0.1:8080. The first time, the page asks you to connect: type t
 
 The admin password is only needed to change things on the antennas. Enter it on the same screen, or later from the padlock at the top of the page. Leave it empty to just watch. The password is kept in the program's memory only, never in a file, so you enter it again after a restart. Notes, VIP marks, colours and check-in only change the dashboard's own data and need no password.
 
-If you prefer the terminal, `BOLERO_HOSTS=10.0.0.3` and `BOLERO_ADMIN_PASSWORD` still work (use `read -rs BOLERO_ADMIN_PASSWORD && export BOLERO_ADMIN_PASSWORD` so the password stays out of your shell history). Antenna addresses must be on a private network (10.x, 172.16-31.x, 192.168.x or 169.254.x). The dashboard refuses anything else.
+If you prefer the terminal, `BOLERO_HOSTS=192.168.1.20` and `BOLERO_ADMIN_PASSWORD` still work (use `read -rs BOLERO_ADMIN_PASSWORD && export BOLERO_ADMIN_PASSWORD` so the password stays out of your shell history). Antenna addresses must be on a private network (10.x, 172.16-31.x, 192.168.x or 169.254.x). The dashboard refuses anything else.
 
 ### Sharing it on the show network
 
 ```sh
 export BOLERO_WRITE_TOKEN='something-long'
 CommsCheck --lan            # all interfaces
-CommsCheck --bind 10.0.0.7  # or one address (BOLERO_BIND does the same)
+CommsCheck --bind 192.168.1.50  # or one address (BOLERO_BIND does the same)
 ```
 
 Listening beyond this computer means connecting, the password and writes also need the token (the page asks for it). Without `BOLERO_WRITE_TOKEN` it is read-only. **Reads have no login**: anyone who can reach the port can see the dashboard and the phone page. Only use this on a closed production network. `PORT` changes the port (default 8080).
@@ -118,7 +140,7 @@ Environment variables still work: `BOLERO_TELEGRAM_TOKEN` with `BOLERO_TELEGRAM_
 
 ### Audio meter
 
-Found automatically. To set it by hand: `BOLERO_METER_STREAM=<group>:<port>:<channels>` (for example `239.0.0.10:41002:6`). The machine running the dashboard has to receive that multicast.
+Found automatically. To set it by hand: `BOLERO_METER_STREAM=<group>:<port>:<channels>` (for example `239.69.1.1:5004:2`). The machine running the dashboard has to receive that multicast.
 
 ### Saved data
 

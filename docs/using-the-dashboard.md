@@ -4,7 +4,9 @@
 
 On first start the page asks for an antenna. Type the IP address of any one antenna, or press **Find antennas on this network** (it takes about 10 seconds, and works across the networks your computer is on) and click one in the list. Press Connect. The dashboard remembers the address.
 
-The admin password is optional. Without it the dashboard only watches ("View only" in the top bar, with a "View only, enter password" button in the toolbar). With it, you can change things. Click the padlock at the top, or the toolbar button, to add the password or switch antenna, and "Turn control off" to forget it. In a browser the password is kept in memory only, so you type it again after a restart. The desktop app can keep it encrypted in the system keychain (see Desktop app below).
+The admin password is optional. Without it the dashboard only watches ("View only" in the top bar, with a "View only, enter password" button in the toolbar). With it, you can change things. Click the padlock at the top, or the toolbar button, to add the password or switch antenna, and "Turn control off" to forget it (in the desktop app that clears it for this run only; a copy saved in the keychain comes back at the next launch until you use Server > Forget the saved admin password). The antenna checks the password before the dashboard keeps it, and if the antenna later refuses a change, control switches off and the log says so. Making a change while control is off opens the password box.
+
+If the antenna's clock is more than 5 minutes out, or its time zone is not the computer's, the dashboard asks once per session whether to set the antenna's date, time and time zone from this computer. It only offers this when the antenna keeps its own time. On a system that takes time from PTP or NTP, set it there. In a browser the password is kept in memory only, so you type it again after a restart. The desktop app can keep it encrypted in the system keychain (see Desktop app below).
 
 ## The screen
 
@@ -32,6 +34,8 @@ While registration is open, every online antenna shows amber waves, an amber wif
 **Grid.** One card per pack: number, name, profile, antenna, battery and signal bars, health word, and an ID button to flash it. Cards use the same colour rule as the map. The top edge is the zone colour, and only a problem turns the card amber or red. The battery bar is neutral unless the pack has a problem.
 
 **Event log** (bottom). Newest at the bottom. Filter by type (the "All types" dropdown) or by pack, search, export CSV or JSON. Click a line to highlight its pack on the map.
+
+**AI assistant (MCP)** in Settings sets up the MCP server for an assistant such as Claude. It shows the command to run once in a terminal, with this dashboard's address filled in. Tick "Let the assistant make changes" to make a write token and add it to the command: the assistant can then only write when a person gives it the token. The token is made in the page and kept nowhere, so copy it when it is shown. The command points at the program that is running: in the desktop app that is the app's own `CommsCheck --mcp`, so nothing else needs installing; from source it is `mcp/comms_check_mcp.py`.
 
 ## Show mode
 
